@@ -58,9 +58,9 @@ class SimpleNetworkClient:
         self.updateTime()
         if self.__infToken is None:  # not yet authenticated
             encMessage = rsa.encrypt((config('PASSWORD')).encode(), publicKey)
-            self.__infToken = self.authenticate(self.infPort, (encMessage).encode("utf-8"))
-            print("original string: ", config('PASSWORD'))
-            print("encrypted string: ", encMessage)
+            self.__infToken = self.authenticate(self.infPort, (encMessage))
+#             print("original string: ", config('PASSWORD'))
+#             print("encrypted string: ", encMessage)
             # Here we can use our .env file to pass in the value of our password, in a hidden way.
 
         self.infTemps.append(self.getTemperatureFromPort(self.infPort, self.__infToken) - 273)
