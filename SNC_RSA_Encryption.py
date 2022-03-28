@@ -8,6 +8,7 @@ from decouple import config
 import rsa
 publicKey, privateKey = rsa.newkeys(512)
 
+
 class SimpleNetworkClient:
     def __init__(self, port1, port2):
         self.fig, self.ax = plt.subplots()
@@ -72,7 +73,9 @@ class SimpleNetworkClient:
     def updateIncTemp(self, frame):
         self.updateTime()
         if self.__incToken is None:  # not yet authenticated
-            self.__incToken = self.authenticate(self.incPort, (config('PASSWORD')).encode("utf-8"))
+            encMessage = rsa.encrypt((config('PASSWORD')).encode(), publicKey)
+            self.__infToken = self.authenticate(self.infPort, (encMessage))
+            # self.__incToken = self.authenticate(self.incPort, (config('PASSWORD')).encode("utf-8"))
             # Here we can use our .env file to pass in the value of our password, in a hidden way.
 
         self.incTemps.append(self.getTemperatureFromPort(self.incPort, self.__incToken) - 273)
@@ -82,9 +85,8 @@ class SimpleNetworkClient:
         return self.incLn,
 
 
-"""
+
 snc = SimpleNetworkClient(23456, 23457)
 
 plt.grid()
 plt.show()
-"""
