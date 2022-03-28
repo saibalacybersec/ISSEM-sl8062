@@ -85,8 +85,9 @@ class SimpleNetworkClient:
         return self.incLn,
 
 
-
+"""
 snc = SimpleNetworkClient(23456, 23457)
 
 plt.grid()
 plt.show()
+"""
